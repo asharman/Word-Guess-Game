@@ -10,6 +10,7 @@ var game = {
     guessedLetters: [],
     currentWord: "",
     currentWordArray: [],
+    revealWordArray: [],
     hiddenWord: "",
     // Select random word from wordBank and assign it to current word
     pullWord: function () {
@@ -20,6 +21,7 @@ var game = {
     wordSplit: function (word) {
         for (i = 0; i < word.length; i++) {
             this.currentWordArray.push(word.charAt(i));
+            this.revealWordArray.push(word.charAt(i));
         }
 
         this.hideWord(this.currentWordArray);
@@ -34,14 +36,31 @@ var game = {
             }
         }
 
-        // Deletes every space element in currentWordArray so the game doesn't expect you to guess the space
-        for (let i = array.length - 1; i >= 0, i--;) {
-            if (array[i] === " ") {
-                array.splice(i, 1);
-            }
-        }
-        this.currentWordArray = array;
+        // // Deletes every space element in currentWordArray so the game doesn't expect you to guess the space
+        // for (let i = array.length - 1; i >= 0, i--;) {
+        //     if (array[i] === " ") {
+        //         array.splice(i, 1);
+        //     }
+        // }
+        // this.currentWordArray = array;
     },
+    revealLetter: function(x) {
+        let array = this.hiddenWord.split(" ");
+        console.log(`This is the array after splitting: ${array}`);
+        
+        for (let i = array.length - 1; i >= 0; i--) {
+            console.log(`This is the current word array: ${this.revealWordArray}`);
+            
+            if (this.revealWordArray[i] === x) {
+                array.splice(i,1,x);
+                console.log(`This is the array before joining: ${array}`);
+                
+            }           
+        }
+        this.hiddenWord = array.join(" ");
+        console.log(`${this.hiddenWord}`);
+        
+    }
 }
 
 
@@ -60,6 +79,15 @@ document.onkeyup = function (event) {
             console.log(`You haven't guessed this letter!`);
             if (game.currentWordArray.indexOf(input) >= 0) {
                 console.log(`This letter is in your word!`);
+                game.revealLetter(input);
+                for (let i = game.currentWordArray.length; i >= 0; i--) {
+                    if (game.currentWordArray[i] === input) {
+
+                        game.currentWordArray.splice(i,1);
+                        console.log(`Current word array after splicing input: ${game.currentWordArray}`);
+                        
+                    }
+                }
 
             } else {
                 console.log(`This letter is not in your word`);
