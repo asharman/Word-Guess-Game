@@ -30,19 +30,19 @@ var game = {
     hideWord: function (array) {
         for (let i = 0; i < array.length; i++) {
             if (array[i] === " ") {
-                this.hiddenWord += "  ";
+                this.hiddenWord += " ";
             } else {
                 this.hiddenWord += "_ ";
             }
         }
 
-        // // Deletes every space element in currentWordArray so the game doesn't expect you to guess the space
-        // for (let i = array.length - 1; i >= 0, i--;) {
-        //     if (array[i] === " ") {
-        //         array.splice(i, 1);
-        //     }
-        // }
-        // this.currentWordArray = array;
+        // Deletes every space element in currentWordArray so the game doesn't expect you to guess the space
+        for (let i = array.length - 1; i >= 0, i--;) {
+            if (array[i] === " ") {
+                array.splice(i, 1);
+            }
+        }
+        this.currentWordArray = array;
     },
     revealLetter: function(x) {
         let array = this.hiddenWord.split(" ");
@@ -75,11 +75,12 @@ document.onkeyup = function (event) {
 
     if (game.alphabet.indexOf(input) >= 0) {
         console.log(`You typed an appropriate character!`);
-        if (guessedLetters.indexOf(input) == -1) {
+        if (game.guessedLetters.indexOf(input) == -1) {
             console.log(`You haven't guessed this letter!`);
             if (game.currentWordArray.indexOf(input) >= 0) {
                 console.log(`This letter is in your word!`);
                 game.revealLetter(input);
+                game.guessedLetters.push(input);
                 for (let i = game.currentWordArray.length; i >= 0; i--) {
                     if (game.currentWordArray[i] === input) {
 
@@ -91,7 +92,7 @@ document.onkeyup = function (event) {
 
             } else {
                 console.log(`This letter is not in your word`);
-                guessedLetters.push(input);
+                game.guessedLetters.push(input);
             }
 
         } else {
@@ -101,6 +102,15 @@ document.onkeyup = function (event) {
         console.log(`Character is not valid...`);
 
     }
+    if (game.currentWordArray.length === 0) {
+        console.log(`You win!`);
+        
+    } else if (game.guessedLetters.length === 10) {
+        console.log(`You have lost...`);
+        
+    }
+
+    
 }
 
 
