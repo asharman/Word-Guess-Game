@@ -13,7 +13,7 @@ var game = {
     // An array of characters that the user can only input
     alphabet: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
     // All possible words that can be selected randomly
-    wordBank: ["espresso", "pour over", "chemex", "aeropress", "cup of excellence", "siphon", "latte", "cortado", "cappuccino", "americano", "cold brew", "coffee cherry", "washed process", "natural", "dancing goats", "cupping", "q grader", "barista", "slow bar", "drip coffee", "sustainability", "roaster", "sca","tasting notes", "gibraltar", "ristretto", "lungo", "extraction", "tamp","milk pitcher", "steam wand", "carafe", "single origin", "blend"],
+    wordBank: ["espresso", "pour over", "chemex", "aeropress", "cup of excellence", "siphon", "latte", "cortado", "cappuccino", "americano", "cold brew", "coffee cherry", "washed process", "natural", "dancing goats", "cupping", "q grader", "barista", "slow bar", "drip coffee", "sustainability", "roaster", "sca", "tasting notes", "gibraltar", "ristretto", "lungo", "extraction", "tamp", "milk pitcher", "steam wand", "carafe", "single origin", "blend"],
     // An array that fills as the user guesses characters to prevent them from guessing the same character twice
     guessedLetters: [],
     // An array that displays to the user every character that was guessed incorrectly when the length reaches a specified number the user loses
@@ -69,9 +69,12 @@ var game = {
 
         //Display the hidden word to the user and how many guesses they have remaining as well as updating the score
         //This is placed at the end of the chain of functions so that it gets executed after the game starts
-        currentWordDisplay.innerHTML = game.hiddenWord;
-        guessesLeftDisplay.innerHTML = (10 - game.incorrectLetters.length);
+        document.querySelector("#current-word-display").innerHTML = game.hiddenWord;
+        document.querySelector("#guesses-left-display").innerHTML = (10 - game.incorrectLetters.length);
+        document.querySelector("#guessed-display"), innerHTML = this.incorrectLetters;
         updateScore();
+        console.log(`${this.currentWord}`);
+
     },
 
     // Loop over the hidden word string and convert it to an array of "_" and " " elements and compares it to the revealWordArray
@@ -95,6 +98,7 @@ var game = {
 
         // Convert the hiddenWord array back to a string
         this.hiddenWord = array.join(" ");
+        document.querySelector("#current-word-display").innerHTML = this.hiddenWord;
 
     },
 
@@ -107,62 +111,53 @@ var game = {
         this.revealWordArray = [];
         this.hiddenWord = "";
         this.pullWord();
-    }
-}
+    },
 
-// Displays the current wins and losses to the user
-function updateScore() {
-    winsDisplay.innerHTML = game.wins;
-    lossesDisplay.innerHTML = game.losses;
-}
+    checkLetter: function (input) {
+        //Check if the input is in the array of approved characters
+        if (this.alphabet.indexOf(input) >= 0) {
 
-// Main Game Logic =================================================================================================================================
-// =================================================================================================================================================
+            // Then Check if the input is NOT in the array of already guessed characters
+            if (this.guessedLetters.indexOf(input) == -1) {
 
-//Start the game
-game.pullWord();
+                // Then check if the input is in the currentWordArray, if it is then that character is correct
+                if (this.currentWordArray.indexOf(input) >= 0) {
 
-console.log(`${game.currentWord}`);
+                    // Reveal the character in the hiddenWord string and add it to the array of guessed characters
+                    this.revealLetter(input);
+                    this.guessedLetters.push(input);
 
-// Checks when a key is pressed then executes the function
-document.onkeyup = function (event) {
-
-    //Assigns the what key was pressed to "input"
-    var input = event.key.toLowerCase();
-
-    //Check if the input is in the array of approved characters
-    if (game.alphabet.indexOf(input) >= 0) {
-
-        // Then Check if the input is NOT in the array of already guessed characters
-        if (game.guessedLetters.indexOf(input) == -1) {
-
-            // Then check if the input is in the currentWordArray, if it is then that character is correct
-            if (game.currentWordArray.indexOf(input) >= 0) {
-
-                // Reveal the character in the hiddenWord string and add it to the array of guessed characters
-                game.revealLetter(input);
-                game.guessedLetters.push(input);
-
-                // Loop through the currentWordArray and remove any and all instances of that character
-                for (let i = game.currentWordArray.length; i >= 0; i--) {
-                    if (game.currentWordArray[i] === input) {
-                        game.currentWordArray.splice(i, 1);
+                    // Loop through the currentWordArray and remove any and all instances of that character
+                    for (let i = this.currentWordArray.length; i >= 0; i--) {
+                        if (this.currentWordArray[i] === input) {
+                            this.currentWordArray.splice(i, 1);
+                        }
                     }
+
+                    // If the character is not in the currentWordArray the add it to the array of guessed characters and the array of incorrectly guessed characters and display the number of remaining guesses the user has
+                } else {
+                    this.guessedLetters.push(input);
+                    this.incorrectLetters.push(input);
+                    document.querySelector("#guesses-left-display").innerHTML = (10 - game.incorrectLetters.length);
                 }
 
-                // If the character is not in the currentWordArray the add it to the array of guessed characters and the array of incorrectly guessed characters and display the number of remaining guesses the user has
-            } else {
-                game.guessedLetters.push(input);
-                game.incorrectLetters.push(input);
-                guessesLeftDisplay.innerHTML = (10 - game.incorrectLetters.length);
             }
-
-
         }
+        // Update the hiddenWord string, incorrect guess array, and score displays
+        game.revealLetter(input);
+        document.querySelector("#current-word-display").innerHTML = game.hiddenWord;
+        console.log(`${game.hiddenWord}`);
 
+        document.querySelector("#guessed-display").innerHTML = game.incorrectLetters;
+        updateScore();
+        this.checkWin();
+    },
+
+    checkWin: function () {
         // Check if there are any characters left to guess in the currentWordArray
         if (game.currentWordArray.length === 0) {
             // Tell the user they won, add 1 to the wins score, and reset the game
+            document.querySelector("#current-word-display").innerHTML = game.revealWordArray;
             alert(`You win!`);
             game.wins++
             game.reset();
@@ -174,14 +169,30 @@ document.onkeyup = function (event) {
             game.losses++
             game.reset();
         }
-
-        // Update the hiddenWord string, incorrect guess array, and score displays
-        currentWordDisplay.innerHTML = game.hiddenWord;
-        guessedDisplay.innerHTML = game.incorrectLetters;
-        updateScore();
     }
+
+
 }
 
+// Displays the current wins and losses to the user
+function updateScore() {
+    document.querySelector("#w").innerHTML = game.wins;
+    document.querySelector("#l").innerHTML = game.losses;
+}
+
+// Main Game Logic =================================================================================================================================
+// =================================================================================================================================================
+
+//Start the game
+game.pullWord();
+
+// Checks when a key is pressed then executes the function
+document.onkeyup = function (event) {
+
+    //Assigns the what key was pressed to "input"
+    var input = event.key.toLowerCase();
+    game.checkLetter(input);
+}
 
 
 
