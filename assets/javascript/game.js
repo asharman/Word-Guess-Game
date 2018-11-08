@@ -7,6 +7,7 @@ var game = {
     wordBank: ["espresso", "pour over", "chemex"],
     guessedLetters: [],
     currentWord: "",
+    currentWordArray: [],
     hiddenWord: "",
     // Select random word from wordBank and assign it to current word
     pullWord: function () {
@@ -15,11 +16,11 @@ var game = {
     },
     //Splits the current word up into an array of each character
     wordSplit: function (word) {
-        var currentWordArray = [];
         for (i = 0; i < word.length; i++) {
-            currentWordArray.push(word.charAt(i));
+            this.currentWordArray.push(word.charAt(i));
         }
-        this.hideWord(currentWordArray);
+
+        this.hideWord(this.currentWordArray);
     },
     // Creates a string that replaces every element in an array with an underscore
     hideWord: function (array) {
@@ -49,12 +50,8 @@ var game = {
 
 game.pullWord();
 console.log(`${game.currentWord}`);
+console.log(`${game.currentWordArray}`);
 console.log(`${game.hiddenWord}`);
 
-
-// var currentWord = pullWord();
-// var hiddenWord = wordSplit(currentWord);
-// console.log(`${currentWord}`);
-// console.log(`${hiddenWord}`);
 
 
