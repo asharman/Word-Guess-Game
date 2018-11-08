@@ -2,12 +2,11 @@ var currentWordDisplay = document.getElementById("current-word-display");
 var guessesLeftDisplay = document.getElementById("guesses-left-display");
 var guessedDisplay = document.getElementById("guessed-display");
 
-var guessedLetters = [];
-
 var game = {
     alphabet: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
     wordBank: ["espresso", "pour over", "chemex"],
     guessedLetters: [],
+    incorrectLetters: [],
     currentWord: "",
     currentWordArray: [],
     revealWordArray: [],
@@ -93,6 +92,7 @@ document.onkeyup = function (event) {
             } else {
                 console.log(`This letter is not in your word`);
                 game.guessedLetters.push(input);
+                game.incorrectLetters.push(input);
             }
 
         } else {
@@ -109,8 +109,10 @@ document.onkeyup = function (event) {
         console.log(`You have lost...`);
         
     }
-
     
+    currentWordDisplay.innerHTML = game.hiddenWord;
+    guessesLeftDisplay.innerHTML = (10 - game.incorrectLetters.length);
+    guessedDisplay.innerHTML = game.incorrectLetters;
 }
 
 
