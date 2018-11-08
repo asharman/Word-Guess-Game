@@ -13,7 +13,7 @@ var game = {
     // An array of characters that the user can only input
     alphabet: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
     // All possible words that can be selected randomly
-    wordBank: ["espresso", "pour over", "chemex"],
+    wordBank: ["espresso", "pour over", "chemex", "aeropress", "cup of excellence", "siphon", "latte", "cortado", "cappuccino", "americano", "cold brew", "coffee cherry", "washed process", "natural", "dancing goats", "cupping", "q grader", "barista", "slow bar", "drip coffee", "sustainability", "roaster", "sca","tasting notes", "gibraltar", "ristretto", "lungo", "extraction", "tamp","milk pitcher", "steam wand", "carafe", "single origin", "blend"],
     // An array that fills as the user guesses characters to prevent them from guessing the same character twice
     guessedLetters: [],
     // An array that displays to the user every character that was guessed incorrectly when the length reaches a specified number the user loses
@@ -26,7 +26,7 @@ var game = {
     // A copy of currentWordArray, but this array's elements never get removed. This is used to update the hidden word string to display to the user
     // as they guess correct characters
     revealWordArray: [],
-    // A string that is displayed to the user that reveals what correct letters they've guessed and hides the one's they have with "_ "
+    // A string that is displayed to the user that reveals what correct letters they've guessed and hides the one's they haven't with "_ "
     hiddenWord: "",
     // Wins and loss counters to keep track of score
     wins: 0,
@@ -149,8 +149,8 @@ document.onkeyup = function (event) {
                         game.currentWordArray.splice(i, 1);
                     }
                 }
-            
-            // If the character is not in the currentWordArray the add it to the array of guessed characters and the array of incorrectly guessed characters and display the number of remaining guesses the user has
+
+                // If the character is not in the currentWordArray the add it to the array of guessed characters and the array of incorrectly guessed characters and display the number of remaining guesses the user has
             } else {
                 game.guessedLetters.push(input);
                 game.incorrectLetters.push(input);
@@ -167,7 +167,7 @@ document.onkeyup = function (event) {
             game.wins++
             game.reset();
 
-        // Check if the array of incorrect guesses is 10 characters long
+            // Check if the array of incorrect guesses is 10 characters long
         } else if (game.incorrectLetters.length === 10) {
             // Tell the user they lost, add 1 to the losses score, and reset the game
             alert(`You have lost...`);
