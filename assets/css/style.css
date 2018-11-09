@@ -1,0 +1,8 @@
+#current-word-display {
+    word-spacing: .5rem;
+    font-size: 2vw;
+}
+
+#guess-row {
+    margin-bottom: 3rem;
+}

@@ -1,18 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Word Guess Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
     <script defer src="assets/javascript/game.js"></script>
 </head>
+
 <body>
-    <h1>Current Word: <span id="current-word-display"></span></h1>
-    <h1>Guesses Remaining <span id="guesses-left-display"></span></h1>
-    <h1>You've guessed: <span id="guessed-display"></span></h1>
-    <h1>Wins: <span id="w"></span></h1>
-    <h1>Losses: <span id="l"></span></h1>
+    <div class="container">
+        <div class="grid">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="display-4 text-center">Current Word:</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <pre class="text-center mx-auto"><span id="current-word-display"></span></pre>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <h1 class="text-center">Guesses Remaining: <span id="guesses-left-display"></span></h1>
+                </div>
+            </div>
+            <div class="row" id="guess-row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <h1>You've guessed: <span id="guessed-display"></span></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h1 class="text-center">Wins: <span id="w"></span></h1>
+                </div>
+                <div class="col-6">
+                    <h1 class="text-center">Losses: <span id="l"></span></h1>
+                </div>
+            </div>
 </body>
+
 </html>

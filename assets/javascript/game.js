@@ -71,7 +71,7 @@ var game = {
         //This is placed at the end of the chain of functions so that it gets executed after the game starts
         document.querySelector("#current-word-display").innerHTML = game.hiddenWord;
         document.querySelector("#guesses-left-display").innerHTML = (10 - game.incorrectLetters.length);
-        document.querySelector("#guessed-display"), innerHTML = this.incorrectLetters;
+        document.querySelector("#guessed-display").innerHTML = this.incorrectLetters;
         updateScore();
         console.log(`${this.currentWord}`);
 
