@@ -157,10 +157,13 @@ var game = {
         // Check if there are any characters left to guess in the currentWordArray
         if (game.currentWordArray.length === 0) {
             // Tell the user they won, add 1 to the wins score, and reset the game
-            document.querySelector("#current-word-display").innerHTML = game.revealWordArray;
-            alert(`You win!`);
-            game.wins++
-            game.reset();
+            document.querySelector("#current-word-display").innerHTML = game.hiddenWord;
+            setTimeout(function (){
+                alert(`You win!`);
+                game.wins++
+                game.reset();
+            }, 200);
+
 
             // Check if the array of incorrect guesses is 10 characters long
         } else if (game.incorrectLetters.length === 10) {
